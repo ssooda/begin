@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공포의 쿵쿵따</title>
+</head>
+
+<body>
+  <div><span id=order>1</span>번째 참가자</div> 
+  <div>제시어 : <span id=word> </span></div>
+  <input type="text">
+  <button>입력</button> 
+  <script>
+    confirm("쿵쿵따 게임에 참여하시겠습니까?");
+    let number = Number(prompt("몇 명이 참여하나요?"));
+    console.log("참가자",number);
+    console.log(typeof number) //typeof number
+
+   if(number){//prompt에서 취소를 누르는 경우 number가 0이 되는데, 0은 false이므로 if의 식들이 실행이 안 됨
+    const $order = document.querySelector('#order');
+    const $word = document.querySelector('#word');
+    const $input = document.querySelector('input');
+    const $button = document.querySelector('button');
+    let word;
+    let newWord;
+
+    $input.focus();
+    
+    const onInput = () => {
+      newWord = event.target.value;
+      console.log('입력', newWord);
+    }
+
+    const onClick = () => {
+      if(!word || (word[word.length-1] == newWord[0]&&newWord.length==3)) {
+        console.log('부합')
+        word = newWord;
+        $word.textContent = word;
+        $input.value='';
+        $input.focus();
+        console.log('지금까지', $order.textContent, '번째');
+        if(Number($order.textContent) +1 > number){ //Number을 안 하니까 안 바뀜 textContent로 받는 건 문자열
+          $order.textContent = 1;
+        } else{ 
+          $order.textContent = Number($order.textContent) + 1;
+        }
+
+      } else{
+        console.log('땡떙');
+        alert("틀렸습니다");
+        $input.value='';
+        $input.focus();
+      
+
+      }
+    }
+
+    $input.addEventListener('input', onInput)
+    $button.addEventListener('click', onClick)
+    
+    const pressEnter=() => {
+        if(event.keyCode===13) {
+          if((!word || word[word.length-1] == newWord[0])&&newWord.length==3) {
+            console.log('부합');
+            word = newWord;
+            $word.textContent = word;
+            $input.value='';
+            $input.focus();
+            console.log('지금까지', $order.textContent, '번째');
+            if(Number($order.textContent) +1 > number){ //Number을 안 하니까 안 바뀜 textContent로 받는 건 문자열
+              $order.textContent = 1;
+            } else{ 
+              $order.textContent = Number($order.textContent) + 1;
+            }
+        } else{
+          console.log('땡떙');
+          alert("틀렸습니다");
+          $input.value='';
+          $input.focus();
+        }
+      }
+    }
+    $input.addEventListener('keyup',pressEnter);
+   }
+  </script>
+
+
+</body>
+
+</html>

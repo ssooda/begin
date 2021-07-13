@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>베스킨라빈스31</title>
+</head>
+
+<body>
+  <h3>베스킨라빈스31</h3>
+  <div>규칙</div> 
+  <ul>
+    <li>1부터 시작합니다.</li>
+    <li>최소 1개 최대 3개 숫자를 순서대로 부를 수 있다</li>
+    <li>앞 사람과 겹치는 숫자를 입력하는 경우 패배한다</li>
+    <li>앞 사람과 동일한 갯수로 숫자를 입력하는 경우 패배한다</li>
+    <li>31을 외치는 사람은 패배한다</li>
+    <li>새롭게 시작하려면 새로고침</li> 
+  </ul> 
+  <div><span id ="order">1</span>번째 사람</div>
+    <input id = "reply" type = "text">
+    <button id="submit"> 확인</button>
+    <button id="new"> 새로고침</button>
+
+  <script>    
+    const people = Number(prompt('몇 명이 참가하나요?'));
+    console.log('참가인원 ',people);
+    //커서깜빡
+    document.querySelector('#reply').focus();
+
+    //기본세팅
+    let $submit = document.querySelector('#submit');
+    let $reply =document.querySelector('#reply');
+    let $order = document.querySelector('#order');
+    let reply1=[];
+    let reply2=[];
+
+    //새로고침 버튼
+    document.querySelector('#new').addEventListener('click', () => {
+      location.reload();
+    });
+
+    //사람 순서 세는 함수
+    function count(){
+      if(order.textContent<people){//1 -> 2, 2->3
+        order.textContent = Number(order.textContent) + 1;
+      } else { //3 -> 1
+        order.textContent =1 ;
+      }
+    };
+
+    //오류 검사 함수
+    function check(){
+       //받은 숫자 쪼개기
+      //사람들이 입력한 순간에는 해당 값이 reply1에 저장됨
+      reply1 = $reply.value.split(',') ; //'1,2,3'.split(',') => reply=['1','2','3']
+      console.log('오류검사 전 reply1', reply1);
+      $reply.value = ''; //입력창 비우기
+
+      //에러 검사하기
+      console.log('첫번째 검사')
+      if(reply1[0]==0){ //첫번째 검사 : 아무 숫자도 입력하지 않은 경우
+        //reply=[""]
+        //""==0 : true
+        return alert('숫자를 입력하세요'); //return alert로 빠져나가면 함수의 return값이 undefined
+      };
+      console.log('첫번째 검사 통과')
+
+      console.log('두번째 검사')
+      if(reply1.length !== new Set(reply1).size){ //두번째 검사 : 자기가 입력한 값 중에 중복이 있는지
+        //reply=["1","1","2"]
+        //new Set(reply) -> ={"1","2"}
+        //reply.length vs new Set(reply).size
+        return alert('중복된 숫자가 있습니다');
+      };
+      console.log('두번쨰 검사 통과')
+
+      console.log('세번 쨰 검사')
+      if(reply1.length >3){ //세번 째 검사 : 3개 초과해서 입력하는 경우
+        return alert('1개에서 3개까지만 입력이 가능합니다')
+      }
+      console.log('세번 째 검사 통과')
+
+      console.log('네번 째 검사')
+      if(reply2.length == reply1.length){//네 번째 검사 : 앞 사람과 동일한 갯수 검사
+        return alert('앞 사람과 동일한 갯수 입니다')
+      };
+      console.log('네번째 검사 통과')
+      
+      console.log('다섯번째 검사')
+      if(reply2[0]==undefined){ //첫번째 사람 1~3까지 입력했는지, 1을 입력했는지
+        console.log('첫번째 사람')
+        reply1.map((element, index) => {
+          if(element>3){
+           return alert("1~3사이의 숫자만 입력할 수 있습니다")
+          }
+        })
+        if(!reply1.includes("1")){
+          return alert("1부터 시작해야합니다")
+        }
+      } else{
+        console.log('첫번째 사람 아님')//첫번쨰 사람이 아니면
+        if(Number(reply1[0]) !== Number(reply2[reply2.length-1])+1){//그 전 사람이 입력한 숫자 +1부터 시작했는지
+        return alert(`그 전 사람이 입력한 마지막 숫자는 ${reply2[reply2.length-1]}입니다`)
+          }
+        };
+      console.log('다섯번째 검사 통과')
+
+      console.log('여섯번째 검사')
+      if(reply2[0] !== undefined){//첫번째 사람이 아니면
+        i=0;
+        while (i<reply1.length-1){
+          if((reply1[i]<=reply2[reply2.length-1]) || (reply[i]>reply2[reply2.length-1]+3)){
+            alert ('범위 내의 값이 아닙니다');
+            break;
+          }
+          i++;
+        }
+      };
+      console.log('여섯번째 검사 통과')
+
+    return true ;//중간에 관문에 걸리면 alert 즉 undefined가 리턴값임
+       //관문에 안 걸리고 여기까지 내려오면 이 함수의 리턴값은 true 임
+    }
+
+    //확인 버튼 클릭 시
+    $submit.addEventListener('click', (event) => {
+
+      if (!check()){//check를 통과못하는 경우 이 함수를 빠져나가라
+        return;
+      };
+
+      console.log('오류검사 후 reply1', reply1);
+
+      if(reply1.includes('31')){//check 통과했는데 31부르면
+        return alert('패배!');
+      };
+
+      //다 통과하면 reply2로 옮겨놓음 reply1은 비우기 
+        reply1.map((element, index) => {
+        reply2.push(element);
+      });
+      reply1=[];
+      console.log('reply2', reply2);
+      count();
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE hml>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>끝말잇기 게임</title>
+</head>
+
+<body>
+<div><span id ="order">1</span>번째 참가자</div>
+<div>제시어 : <span id ="word"></span></div>
+<input type="text">
+<button>입력</button>
+<script>
+  alert ("끝말잇기 게임에 참가하시겠습니까?")
+  const number = Number(prompt("몇 명이 참가하나요?"), 10); //prompt에서 받은 값(string)을 parseInt를 이용해 number로 바꿈
+  //console.log('number',number); //console창에서 number값 써라
+  //alert(number+ "명") ;
+  const yesOrNo = confirm(number + "명 맞나요?");
+  //console.log(typeof number) //console창에서 number의 type을 확인
+  const $button = document.querySelector('button'); //입력이라고 적힌 button 태그 찾기
+  const $input = document.querySelector('input'); //type이 text인 input 태그 찾기
+  const $word = document.querySelector('#word');
+  const $order = document.querySelector('#order');
+  let word; //시작할 때 제시어
+  let newWord; //새로 입력한 단어
+  $input.focus();
+
+  const onClickButton= () => { //click 이벤트가 실행된 순간에 함수가 작동함
+    console.log('버튼 누름', event.target.textContent) //해당 이벤트가 타겟하는 태그(button)의 textContent
+    if(!word || word[word.length-1]===newWord[0]){//버튼을 누른 순간에 제시어가 비어있는 경우, 또는 끝글자 첫글자 같은 경우
+      word=newWord; //왜 change가 아닐까 궁금했다 => 버튼을 누른 순간에 newWord가 word에 대입되므로 버튼을 누른 순간 즉 참가자가 적으려고 한 단어가 맞는 순간 event.target.value가 최종적으로 입력한 단어일 것이므로 그 입력한 단어가 제시어가 된다
+      $word.textContent = word; //document.querySelector('span #word').textContent = word id가 word인 태그의 값을 word변수의 값으로
+      const order = Number($order.textContent)
+      if (order+1 > number){
+        $order.textContent = 1;
+      } else{
+        $order.textContent = order + 1 ;
+      }
+      $input.value='';//input태그(현재 input은 text타입임를 선택하고 그 value(값)을 빈칸으로
+      $input.focus();
+    } else{//제시어가 비어있지 않고 옳바르지 않은 경우
+      alert("땡땡땡")
+      $input.value='';//input태그(현재 input은 text타입임를 선택하고 그 value(값)을 빈칸으로
+      $input.focus();
+    }
+   };
+
+
+  const onInput=(event) => {
+    newWord = event.target.value; //해당이벤트가 타겟하는 태그(input type="text")의 값
+    console.log('글자입력', newWord);
+    
+  };
+
+
+
+$button.addEventListener('click',onClickButton); //웹에서 버튼을 찾아서, 버튼이 'click'되었을 때, onClickButton함수가 실행된다.
+//document.qeurySelector('button').addEventListenr('click',onClickButton)
+//word에 아무것도 설정을 안 해줬으므로 처음 시작할 떄는 word에 아무 값도 없음(!word) 따라서
+//if가 실행되고, onInput함수에 따라 입력값이 설정된 newWord의 값을 word변수에 넣고, span밑에 있는 id가 word인 곳에 해당 변수 word를 입력한다
+//그리고 input 태그가 있는 곳의 값을 다시 빈칸(' ')으로 만든다
+$input.addEventListener('input',onInput); //document.querySelectro('input').addEventListenr('input',OnInput) 
+//=> input 태그를 찾고, 그 요소값이 변경시(addEventListner('input')) onInput함수를 실행해라(클릭시 value를 newWord변수에 넣는다)
+
+
+</script>
+
+
+</body>
+</html> 

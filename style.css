@@ -1,0 +1,51 @@
+a{
+  color : black;
+}
+.heading{
+  font-size : 40px ;
+  text-decoration : none ;
+}
+h1{
+  text-align : center  ;
+  border-bottom : solid Peru 5px ;
+  margin : 0;
+  padding : 15px ;
+}
+#grid #content {
+  border-right : solid Peru;
+  margin : 0;
+  width : 130px;
+  padding-top : 10px ;
+  padding-left : 5px;
+}
+body {
+  margin :0;
+  background-color:linen;
+}
+#grid {
+ display: grid;
+ grid-template-columns : 150px 1fr;
+}
+#grid #article {
+ padding-left : 5px ;
+}
+.ref{
+ text-decoration: none;
+}
+#english{
+  margin-top : 20px;
+}
+@media(max-width : 600px){
+   h1, .heading{
+     font-size : 30px ;
+   }
+   #grid {
+    display: block;
+  }
+  #grid #content {
+  display : block ;
+  border-right : none;
+  border-bottom: solid Peru;
+  width : 600px;
+  }
+}

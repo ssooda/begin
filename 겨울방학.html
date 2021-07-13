@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <title>WINTER VACATION</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <script>
+  function vaHandler(self){
+      var target=document.querySelector('body');
+      if(self.value==='winter vacation'){
+        target.style.backgroundColor='skyblue';
+        self.value='wow';
+        var go=document.querySelector('body');
+      } else {
+        target.style.backgroundColor='linen';
+        self.value='winter vacation';
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <h1> <a href="LIFEROAD.html" class="heading"> LIFE ROAD</a> : <a href="home_KSY.html" class ="heading" > KSY</a> </h1>
+<div id="grid">
+    <div id="content">
+        <ul>
+          <a href="for now.html" class="ref" ><li>for now</li></a>
+        </ul>
+        <ol>
+          <li><a href="21상반기.html"  class="ref" >21 상반기</a></li>
+          <li><a href="3-2.html" class="ref" >3-2</a></li>
+          <li><a href="겨울방학.html" class="ref"> 겨울방학</a></li>
+          <li><a href="4-1.html" class="ref">4-1</a></li>
+        </ol>
+    </div>
+    <div id ="article" style="margin-top:20px">
+      <h2 style="display : inline; padding-top: 10px;">겨울방학</h2>
+      <input type="button" value="winter vacation" onclick="
+    vaHandler(this)">
+    </div>
+</div>
+</body>
+</html>

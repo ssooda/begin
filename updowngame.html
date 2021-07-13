@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UpDownGame</title>
+  <style> 
+    body{
+      background-color:blanchedalmond;
+    }
+    #history, form{
+      text-align: center;
+    }
+  </style>
+</head>
+<!-- 이걸 어떻게 하면 완성할 수 있을까 ?
+  function selection (){
+    let answerGroup = [];
+    answerGroup.push(Math.round((Math.random())*5)); //십의 자리는 0~5까지
+    answerGroup.push(Math.round((Math.random())*9)); //일의 자리는 0~9까지
+    return answerGroup.join('');
+    }
+    let answer = selection();
+    console.log(answer);
+    if(1<=answer<=50){
+      return;
+    } else{
+      selection()
+  }
+  이렇게 해도 안 됨
+  answer값을 어떻게 하면 끌고올 수 있을까
+  asnwer이 범위를 벗어나면 계속 다시 숫자를 뽑도록
+  if 위에서 변수가 정의되어야하던데
+  if 안에서 변수가 정의되어도 되나?
+  i
+-->
+<!--
+    //0~9까지 숫자 카드 모둠 만들기
+    //이 게임에서는 중복이 가능하므로 숫자 카드 모둠에서 splice할 필요는 없음 
+    let number = [];
+    for (i=0 ; i<10 ; i++){
+      number.push(i);
+    }
+    console.log(number);
+
+-->
+
+<body>
+  <h3>UpDownGame</h3> 
+  <div>
+    <ol>
+      <li>범위는 <strong>1이상 50이하</strong> 입니다. </li>
+      <li>기회는 <strong>총 4번</strong> 입니다</li>
+      <li>다시 시작 하고 싶다면 새로고침!</li>
+    </ol>
+  </div> 
+  <form>
+    <input type = "text">
+    <button> 확인 </button>
+  </form>
+  <div id = "history"></div>
+
+  <script>
+    //기본 설정
+    let $form = document.querySelector('form');
+    let $history = document.querySelector('#history');
+    //0<=Math.random()<1
+    //0<=Math.random()*49<49
+    //0<Math.round(Math.random()*49)<=49
+    //1<=Math.round((Math.random())*49)+1<=50
+    let answer = Math.round(Math.random()*49+1);
+    console.log(answer) ;
+
+
+    //사용자가 확인 버튼을 누르는 경우
+    let replyGroup=[];
+    $form.addEventListener('submit', (event) =>{
+      event.preventDefault();
+      let reply;
+      reply = event.target[0].value; //let으로 설정한 변수 변경할 때 또 let 쓰면 안 됨
+      event.target[0].value='';
+
+      //에러 검사
+      if(reply==0 || reply>50){
+        alert('범위를 벗어났습니다');
+        return; //에러가 나면 이 함수 자체를 탈출해야함 아니면 밑에 줄줄이 실행됨
+      }
+
+      if(replyGroup.includes(reply)){
+        alert('이미 입력한 값입니다');
+        return; //앞에서 저장되어있던 배열에 있는 값을 입력한 경우 
+      }
+
+      //한 번에 맞춘 경우
+      if(reply==answer){
+        $history.append(`HOME RUN! ${reply} is CORRECT`, document.createElement('br'));
+        return; //한 번에 맞추면 이 함수 자체를 탈출해야함 아니면 밑에 줄줄이 실행됨
+      };
+
+      //에러가 없고 한 번에 맞춘 게 아니라면 응답을 저장
+      replyGroup.push(reply);
+      console.log(replyGroup);
+
+      //기회를 날린 경우
+      if(replyGroup.length>3){
+        $history.append(`${reply}`, document.createElement('br'),  `끝! 정답은 ${answer}`);
+        return ; //여기 if가 실행되면 함수 자체를 빠져나가도록 return
+      };
+
+      if(reply>answer){//응답이 정답보다 큰 경우
+        $history.append(`${reply} : down`, document.createElement('br'))
+      } else{//응답이 정답보다 작은 경우
+        $history.append(`${reply} : up`, document.createElement('br'))
+      }
+    }); //check함수가 위에서 정의되어야하는가?
+  </script>
+</body>
+</html>
